@@ -1,6 +1,6 @@
 ## Module to create SQL managed instances calling an ARM template from terraform...WARNING, IT WILL TAKE A LONG TIME TO CREATE THE INSTANCE
 ### Even though terraform says that it is complete, the ARM template will still be running in the background, and it wll take a long time to run.
-/* module "sqlmi" {
+ module "sqlmi" {
   depends_on = [module.network, module.rt, module.rgroup, module.storage_acc, module.nsg]
   source                          = "../../../modules/sqlmi"
   location                        = var.location
@@ -37,14 +37,14 @@
   Project                         = "Medchart 2020 Cloud project"
   Tier                            = "DB"
   Vendor                          = "DXC Technology"
-} */
+} 
 
 ### THE PROCESS TO DESTROY:
 ### - Destroy the SQLMI
 ### - Run Terraform Destrroy
 ### THE ORDER IS VERY IMPORTANT
 
-/* ##Module to create the vnet and subnet
+ ##Module to create the vnet and subnet
 module "subnet_delegated" {
   source                   = "../../modules/subnet"
   Name                     = module.vnet.vnet_name
@@ -54,10 +54,10 @@ module "subnet_delegated" {
   nsg_id                   = module.nsg.nsg_id
   delegated                = "yes"
 }
- */
+ 
 
  ### ROUTE TABLES FOR SQL MANAGED INSTANCES
-/* module "rt" {
+ module "rt" {
   source                   = "../../modules/rt"
   location                 = var.location
   sqlmi_name               = var.sqlmi_name
@@ -107,4 +107,4 @@ module "subnet_delegated" {
     }
 
   }
-} */
+}

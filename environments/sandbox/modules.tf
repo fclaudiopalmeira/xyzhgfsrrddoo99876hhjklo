@@ -99,7 +99,7 @@ module "subnet" {
 }
  */
 # AKS Log Analytics
-/*
+
 module "log_analytics" {
   source                           = "../../modules/log_analytics"
   resource_group_name              = module.rgroup.name
@@ -129,4 +129,3 @@ module "aks_cluster" {
   ### client_secret            = module.aks_identities.cluster_sp_secret
   diagnostics_workspace_id = module.log_analytics.azurerm_log_analytics_workspace
 }
-*/
