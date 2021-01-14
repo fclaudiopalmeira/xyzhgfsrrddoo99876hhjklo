@@ -1,0 +1,8 @@
+
+# ignore everything in the "wp-content" directory, except:
+# "mu-plugins", "plugins", "themes" directory
+backup/*
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite

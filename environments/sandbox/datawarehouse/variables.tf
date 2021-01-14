@@ -1,0 +1,382 @@
+### TAGS APPLIED TO ALL CREATED RESOURCES    ####
+variable "common_azure_tags" {
+  type = map(string)
+  description = "Common Azure tags to be applied to all created resources."
+}
+
+variable "sqlmi_name" {
+ description = "variable used to pass the SQLMI names to the ARM templates"
+}
+
+variable "routes" {
+default = {
+  }
+}
+
+## COMMON VARIABLES #####
+/*02.
+variable "Name" {
+	type        = string
+	description = "Name of this resource."
+}
+*/
+variable "resourceGroupName" {
+	type        = string
+	description = "Resource Group for this deployment."
+}
+
+variable "location" {
+	type        = string
+	description = "Location for all resources"
+}
+
+/* 
+variable project {
+  description = "Map of project names to configuration"
+  type        = map
+  default     = {
+    Environments = {
+      dev  = "d",
+      uat_env_sn   = "u",
+      npd_env_sn   = "n",
+      prd_env_sn   = "p",
+      dr_env_sn    = "p",
+      uatdr_env_sn = "u"
+    },
+    Business = {
+      cdhb  = "c",
+      hhub  = "h",
+      wcdhb = "w",
+      sdhb  = "s",
+      nmdhb = "n"
+    },
+	Location = {
+      ae_loc_sn = "ae",
+      ase_loc_sn = "ase"
+    },
+	Functions = {
+      adc_fun = "adc",
+      bas_fun = "bas",
+      bld_fun = "bld",
+      dc_fun = "dc",
+      sql_fun = "sql",
+      pat_fun = "pat",
+      orch_fun = "orch"
+    }
+  }
+}
+ */
+
+/* 
+variable "businnes" {
+	description = "Here you set C for CDHDB and H for HEALTHHUB"
+}
+
+variable "location" {
+	description = "Here you set ae or australiaeast and ase or australiasoutheast"
+}
+
+variable "environment" {
+	description = "Here you set C for CDHDB and H for HEALTHHUB"
+}
+
+variable "application" {
+	description = "Here you set C for CDHDB and H for HEALTHHUB"
+}
+
+variable "function" {
+	description = "Here you set C for CDHDB and H for HEALTHHUB"
+}
+
+variable "resources" {
+	description = "Here you set C for CDHDB and H for HEALTHHUB"
+}
+
+ */
+####### NETWORK VARIABLES  #######
+variable "rules" { 
+default =  {
+  }
+
+}
+
+variable "hop_type" {
+	type        = string
+	description = "Next Hop Type for the Route"
+}
+
+variable "subnet_id" {
+	default = null
+}
+
+variable "subnetNameDelegated" {
+  type    = map()
+	default = null
+}
+
+variable "subnetPrefix" {
+  description = "Map from availability zone to the number that should be used for each availability zone's subnet"
+  default     = ""
+}
+
+/* 
+variable "delegated" {
+	type        = string
+	description = "Variable used to determine whether to delegate or not the subnet to the SQL Managed Instance"
+} */
+
+
+
+## VM VARIABLES
+variable "adminUsername" {
+	type        = string
+	default     = "demo_user"
+	description = "Username for the Virtual Machine."
+}
+
+variable "adminPassword" {
+	type        = string
+	description = "Password for the Virtual Machine."
+}
+
+variable "dnsLabelPrefix" {
+	type        = string
+	default     = "demodns2020"
+	description = "Unique DNS Name for the Public IP used to access the Virtual Machine."
+}
+
+variable "windowsOSVersion" {
+	type        = list(string)
+  ## This is an array, and as such the first value is 0(2016-Datacenter) and the last value is 6(2019-Datacenter)
+	default     = ["2016-Datacenter","2008-R2-SP1","2012-Datacenter","2012-R2-Datacenter","2016-Nano-Server","2016-Datacenter-with-Containers","2019-Datacenter"]
+	description = "The Windows version for the VM. This will pick a fully patched image of this given Windows version."
+}
+
+variable "vmName" {
+	type    		= string
+	description = "Name of the virtual machine."
+}
+
+
+variable "vmSize" {
+	type    		= string
+	default 		= "Standard_A2_v2"
+	description = "Size of the virtual machine."
+}
+
+variable "nicName" {
+	type    		= string
+	description = "Network Insterface Name."
+}
+
+variable "pipName" {
+	type    		= string
+	description = "Public Ip Name."
+}
+
+variable "disk_size_gb" {
+	type    		= string
+	description = "Vm Disk Size"
+}
+
+variable "storage_uri" {
+	type    		= string
+	default         = null
+	description = "The Storage Account's Blob Endpoint which should hold the virtual machine's diagnostic files."
+}
+
+variable "storage_account_type" {
+	type    		= string
+	default         = null
+	description = "Storage Account Type"
+}
+
+## STORAGE ACCOUNT VARIABLES
+variable "replication" {
+	type        = string
+	description = "Replication type for the Storage Account"
+}
+
+variable "tier" {
+	type        = string
+	description = "Storage account tier"
+}
+
+### APP VARIABLES
+
+variable "ansible" {
+  description = "Specifies the operating system type."
+}
+
+variable "virtual_machine_name" {
+  description = "The name of the virtual machine."
+  default     = null
+}
+
+variable "virtual_machine_id" {
+  description = "The id of the virtual machine."
+  default     = null
+}
+
+variable "script" {
+  default     = null
+  description = "Script to be executed."
+}
+
+variable "license_type" {
+  default     = null
+  description = "SQL SERVER RESOURCE LICENSING."
+}
+
+
+
+#### VARIABLES FOR THE CONTAINER TO STORE THE SCRIPT
+
+variable "container_name" {
+  default     = {}
+  description = "The name of the container to store the scripts."
+}
+
+variable "stname" {
+  default     = {}
+  description = "Name of the storage account"
+}
+
+variable "script_name" {
+  default     = {}
+  description = "Name of the script to be uploaded"
+}
+
+variable "script_source" {
+  default     = {}
+  description = "Source script to be uploaded"
+}
+
+
+#### VARIABLES FOR THE AKS CLUSTER #####
+
+variable "node_count" {
+  description = "number of nodes to deploy"
+  default     = 2
+}
+
+variable "dns_prefix" {
+  description = "DNS Suffix"
+  default     = "cdhbcloud"
+}
+
+variable cluster_name {
+  description = "AKS cluster name"
+  default     = "cdhbcloud"
+}
+
+variable log_analytics_workspace_name {
+  default = "testLogAnalyticsWorkspaceName"
+}
+
+# refer https://azure.microsoft.com/global-infrastructure/services/?products=monitor for log analytics available regions Coming on Q3 2020 for Australia Central 2
+variable log_analytics_workspace_location {
+  default = "australiaeast"
+}
+
+# refer https://azure.microsoft.com/pricing/details/monitor/ for log analytics pricing Coming on Q3 2020 for Australia Central 2
+variable log_analytics_workspace_sku {
+  default = "PerGB2018"
+}
+
+variable kubernetes_version {
+  description = "version of the kubernetes cluster"
+  default     = "1.17.11"
+}
+
+variable "vm_size" {
+  description = "size/type of VM to use for nodes"
+  default     = "Standard_D2_v2"
+}
+
+variable "os_disk_size_gb" {
+  description = "size of the OS disk to attach to the nodes"
+  default     = 512
+}
+
+variable "max_pods" {
+  description = "maximum number of pods that can run on a single node"
+  default     = "100"
+}
+
+variable "address_space" {
+  description = "The address space that is used the virtual network"
+  default     = "10.2.0.0/16"
+}
+variable "min_count" {
+  default     = 1
+  description = "Minimum Node Count"
+}
+variable "max_count" {
+  default     = 2
+  description = "Maximum Node Count"
+}
+
+variable "res_ad_domain" {
+  type        = string
+  description = "The Active directory domain name to join"
+}
+
+variable "res_ad_domain_username" {
+  type        = string
+  description = "The Active directory domain username to join"
+}
+
+variable "res_ad_domain_password" {
+  type        = string
+  description = "The Active directory domain password to join"
+}
+
+variable "res_active_directory_OUPath" {
+  type        = string
+  description = "The Active directory Origanisation Unit path of the domain to join"
+  #default     = "OU=SQL Servers,OU=Servers,DC=healthhub,DC=health,DC=nz"
+}
+
+variable "remote_resource_group_name" {
+  	type        = string
+	description = "The resource group name of the remote VNet name"
+}
+
+variable "remote_vnet_name" {
+  	type        = string
+	description = "The remote VNet name"
+}
+
+variable "remote_vnet_id" {
+  	type        = string
+	description = "The remote VNet id"
+}
+
+variable "subnet_names" {
+	default = null
+}
+
+variable "subnetServiceDelegatedName" {
+  type    = map()
+	default = null
+}
+
+/* variable "storage_account_name" {
+  	type        = string
+	description = "The storage account name"
+}
+ */
+
+ # SQLMI VARIABLES
+/* 
+variable "nsg_id" {
+	type        = string
+	description = "Network Security Group ID"
+}
+
+
+ */
+
+
+
